@@ -15,7 +15,8 @@ dashboardPage(
                 ),
                 column(width=6,
                     box(width=NULL, collapsible = FALSE, status='info', solidHeader=T, title='Select File',
-                    fileInput('files', 'Select a kSUM file', accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv'), multiple=F)
+                    # fileInput('files', 'Select a kSUM file', accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv'), multiple=F)
+                    uiOutput('fileList')
                     )
                 )
             ),

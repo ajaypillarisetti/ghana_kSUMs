@@ -38,23 +38,16 @@ read.kSUM <- function(x, toMemory=F, saveFile=F, tzone="Africa/Accra"){
 	if(fileCheck){
 		#read in without regard for delimiters
 		raw <- read.delim(x)
-			#deal with the header
-			# datastart <- as.numeric(sapply(raw, function(x) grep("<PatsData>", x)))
-			# header <- read.table(x,nrow=datastart, stringsAsFactors=F)
-			# fn.header <- tempfile()
-			# header <- rbind(header, "</PatsFile>")
-			# write.table(header, file=fn.header, row.names=F, col.names=F, quote=F)
-			# rawHeader <- xmlParse(fn.header)
-			# unlink(fn.header)
-			# xmlToList(rawHeader)
 		#use a regular expression to identify lines that are data, denote the line number
 		kLines <- as.numeric(sapply(raw, function(x) grep('[0-9]{4}/[0-9]{2}/[0-9]{2,} [0-9:]{6,},[0-9.,]{3,}',x)))
 		#convert to character
 		rare <- as.character(raw[kLines,])
 		rare <- rare[2:length(rare)]
+		rare <- gsub(',2015','2015',rare)
 		fn <- tempfile()
 		write(rare, file=fn)
-		mediumwell <- fread(fn)
+		mediumwell <- read.csv(fn)
+		mediumwell <- as.data.table(mediumwell)
 		unlink(fn)
 		setnames(mediumwell, c('datetime','batt','t0','t1','t2','t3'))
 		mediumwell[,datetime:=ymd_hms(datetime, tz='Africa/Accra')]
@@ -63,6 +56,11 @@ read.kSUM <- function(x, toMemory=F, saveFile=F, tzone="Africa/Accra"){
 		mediumwell
 	}
 }
+
+#check the OS
+OS <- Sys.info()[['sysname']]
+if(OS == 'Windows'){path_to_dropbox <- paste(Sys.getenv('USERPROFILE'),'\\Dropbox',sep="")} else
+if(OS =='Darwin'){path_to_dropbox <- paste("~/Dropbox")}else(warning("Not Windows or Mac"))
 
 Mode <- function(x) {
   ux <- unique(x)
