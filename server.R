@@ -53,7 +53,7 @@ shinyServer(function(input, output) {
 
 	filename <- reactive({datasetName()})
 
-	output$filename <- renderText({filename()})
+	output$filename <- renderText({input$dataset})
 
 	####################
 	##### dygraphs ##### interactivity - to subset data to user-selected range
