@@ -11,7 +11,7 @@ Sys.setenv(TZ="GMT")
 shinyServer(function(input, output) {
 
 	output$fileList <- renderUI(function(){
-		files<-list.files(paste(path_to_dropbox, '/Ghana_adoption_data_SHARED/diagnostics/kSUMS_diagnostics/ksums_6_HOUSEHOLD_PILOT_2015-07-27', sep=""), recursive=T, include.dirs=T, full.names=T, pattern='txt')
+		files<-list.files(paste(path_to_dropbox, '/Ghana_adoption_data_SHARED/serverTest/kSUMs', sep=""), recursive=T, include.dirs=T, full.names=T, pattern='txt')
 		files <- grep('.pdf', files, invert=T, value=T)
 		selectInput("dataset", "Choose a File:", choices = sort(basename(files)))
 	})	
@@ -20,7 +20,7 @@ shinyServer(function(input, output) {
 	datasetInput <- reactive({
 	  inFile <- input$dataset
  		if (is.null(inFile)){return(NULL)} 
- 		inFile <- paste(path_to_dropbox, '/Ghana_adoption_data_SHARED/diagnostics/kSUMS_diagnostics/ksums_6_HOUSEHOLD_PILOT_2015-07-27/', inFile, sep='')
+ 		inFile <- paste(path_to_dropbox, '/Ghana_adoption_data_SHARED/serverTest/kSUMs/', inFile, sep='')
 		dta<- read.kSUM(inFile)
 	})
 
