@@ -11,6 +11,7 @@ Sys.setenv(TZ="GMT")
 shinyServer(function(input, output) {
 
 	output$fileList <- renderUI(function(){
+		# change path here. No trailing slash.
 		files<-list.files(paste(path_to_dropbox, '/Ghana_adoption_data_SHARED/serverTest/kSUMs', sep=""), recursive=T, include.dirs=T, full.names=T, pattern='txt')
 		files <- grep('.pdf', files, invert=T, value=T)
 		selectInput("dataset", "Choose a File:", choices = sort(basename(files)))
@@ -20,6 +21,7 @@ shinyServer(function(input, output) {
 	datasetInput <- reactive({
 	  inFile <- input$dataset
  		if (is.null(inFile)){return(NULL)} 
+ 		# change path here. Trailing slash required.
  		inFile <- paste(path_to_dropbox, '/Ghana_adoption_data_SHARED/serverTest/kSUMs/', inFile, sep='')
 		dta<- read.kSUM(inFile)
 	})
