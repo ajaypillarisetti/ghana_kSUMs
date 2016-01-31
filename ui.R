@@ -30,7 +30,9 @@ dashboardPage(
                 box(textOutput("legendARY"), title = "Legend", collapsible = TRUE, status='info', solidHeader=TRUE, width=4),
                 infoBoxOutput('maxTemp'),
                 infoBoxOutput('minTemp'),
-                infoBoxOutput('avgDailyRange')
+                infoBoxOutput('avgDailyRange'),
+                infoBoxOutput('sampleInterval')
+
     	   ),
             fluidRow(
                 box(

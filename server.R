@@ -21,7 +21,7 @@ shinyServer(function(input, output) {
 	datasetInput <- reactive({
 	  inFile <- input$dataset
  		if (is.null(inFile)){return(NULL)} 
- 		# change path here. Trailing slash required.
+ 		#change path here. Trailing slash required.
  		inFile <- paste(path_to_dropbox, '/Ghana_adoption_data_SHARED/serverTest/kSUMs/', inFile, sep='')
 		dta<- read.kSUM(inFile)
 	})
@@ -126,6 +126,17 @@ shinyServer(function(input, output) {
 			color = if (avgDailyRange <= dailyRangeThreshold) "red" else "green"
 		)
 	})
+
+	output$sampleInterval <- renderInfoBox({
+		if (is.null(datasetInput())) return(NULL)
+		infoBox(
+			value = paste(as.character(fileSamplingInterval()), ' minutes',sep=""),
+			title = "Sampling Interval",
+			icon = icon("clock-o"),
+			color = "aqua"
+		)
+	})
+
 
 	####################
 	###### Tables ###### 
